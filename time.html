@@ -31,13 +31,31 @@ h1 {
   font-weight: bold;
   letter-spacing: 2px;
   margin-bottom: 30px;
+  transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.countdown.warning {
+  color: #f87171;
+  text-shadow: 0 0 12px rgba(248, 113, 113, 0.8);
+  animation: urgentPulse 1s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 12px rgba(248, 113, 113, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 28px rgba(248, 113, 113, 1);
+  }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Aplikasi Peluncuran Artemis 3</h1>
+  <h1>Aplikasi Peluncuran Artemins 3</h1>
   <div id="countdown1" class="countdown">00:00:00</div>
 
   <h1>Epul Amplop Coklat</h1>
@@ -46,9 +64,9 @@ h1 {
 
 <script>
 // TARGET 1
-const target1 = new Date("Apr 16, 2026 18:00:00").getTime();
+const target1 = new Date("Apr 16, 2026 13:34:00").getTime();
 // TARGET 2 (ubah sesuai kebutuhan)
-const target2 = new Date("Apr 30, 2026 23:00:00").getTime();
+const target2 = new Date("Apr 30, 2026 18:00:00").getTime();
 
 const cd1 = document.getElementById("countdown1");
 const cd2 = document.getElementById("countdown2");
@@ -61,8 +79,12 @@ const interval = setInterval(() => {
 
     if (distance < 0) {
       element.innerHTML = selesaiText;
+      element.classList.remove("warning");
       return;
     }
+
+    const isLastFiveMinutes = distance <= 5 * 60 * 1000;
+    element.classList.toggle("warning", isLastFiveMinutes);
 
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
